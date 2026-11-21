@@ -1,0 +1,29 @@
+* YuvaIntern Week 2 Task: 2nd-Order Unity-Gain Sallen-Key Active Low-Pass Filter (fc = 1.00 kHz)
+* Topology: Sallen-Key Butterworth Low-Pass Filter (Q = 0.7071, Damping Ratio = 0.7071)
+* Components: R1 = R2 = 11.25 kOhm, C1 = 20 nF, C2 = 10 nF, RL = 10 kOhm, Op-Amp U1 (+/-15 V)
+
+V1 Vin 0 SIN(0 1 1k) AC 1 0
+VCC VCC 0 DC 15
+VEE VEE 0 DC -15
+
+* Passive Frequency-Selective Network
+R1 Vin N1 11.25k
+R2 N1 N2 11.25k
+C1 N1 Vout 20n Rser=0.05
+C2 N2 0 10n Rser=0.05
+
+* Output Load
+RL Vout 0 10k
+
+* Unity-Gain Operational Amplifier Macromodel (GBWP = 3 MHz, Avol = 200k, Slew = 13 V/us)
+* Node order for UniversalOpAmp2: in+ in- V+ V- out
+XU1 N2 Vout VCC VEE Vout UniversalOpAmp2 level=0 Avol=200k GBW=3Meg Slew=13Meg ilimit=25m rail=1.5 Rout=50
+
+* Simulation Directives (Uncomment desired analysis mode)
+.options plotwinsize=0 numdgt=7
+.ac dec 200 10 100k
+* .tran 0 10m 0 1u
+* .step param C2 list 2.5n 5n 10n 20n 40n
+
+.backanno
+.end
